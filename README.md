@@ -27,7 +27,7 @@ sudo podman run \
     sway-test:latest
 ```
 
-Here I'm using `btrfs` as filesystem, you can switch to `xfs` if necessary
+Here I'm using `btrfs` as filesystem, you can switch to `xfs` if necessary,
 
 To test locally qemu or libvirt can be used: 
 
@@ -61,6 +61,9 @@ sudo virt-install \
 References:
 
 1 - https://mrguitar.net/?p=2627
+
 2 - https://docs.fedoraproject.org/en-US/bootc/qemu-and-libvirt/
+
 3 - https://pagure.io/fedora-kickstarts/blob/main/f/fedora-live-sway.ks
+
 4 - https://pagure.io/fedora-kickstarts/blob/main/f/fedora-sway-common.ks
