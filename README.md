@@ -24,7 +24,7 @@ sudo podman run \
     --local \
     --type qcow2 \
     --rootfs btrfs \
-    sway-test:latest
+    sway-bootc:latest
 ```
 
 Here I'm using `btrfs` as filesystem, you can switch to `xfs` if necessary,
