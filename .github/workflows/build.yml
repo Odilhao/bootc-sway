@@ -1,18 +1,26 @@
 name: CI
 
-permissions:
-  actions: read
-
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+
+env:
+  REGISTRY_USER: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ github.token }}
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
 
 jobs:
   build-swaywm:
     runs-on: ubuntu-24.04
     steps:
+      - name: Log in to ghcr.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ env.REGISTRY_USER }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+          registry: ${{ env.IMAGE_REGISTRY }}
       - uses: actions/checkout@v4
       - name: Build container
-        run: sudo podman build   -t ghcr.io/odilhao/bootc-sway:$(echo ${GITHUB_REF} | tr '/' '_') .
+        run: podman build -t ghcr.io/${{ github.repository_owner }}/bootc-sway:$(echo ${GITHUB_REF} | tr '/' '_') .
+      - name: Push Image
+        run: podman push ghcr.io/${{ github.repository_owner }}/bootc-sway:$(echo ${GITHUB_REF} | tr '/' '_')
