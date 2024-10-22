@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
 
+
+
 env:
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
@@ -11,6 +13,8 @@ env:
 
 jobs:
   build-swaywm:
+    permissions:
+      packages: write
     runs-on: ubuntu-24.04
     steps:
       - name: Log in to ghcr.io
@@ -21,6 +25,6 @@ jobs:
           registry: ${{ env.IMAGE_REGISTRY }}
       - uses: actions/checkout@v4
       - name: Build container
-        run: podman build -t ${{ env.IMAGE_REGISTRY }}/bootc-sway:$(echo ${GITHUB_REF} | tr '/' '_') .
+        run: podman build -t ${{ env.IMAGE_REGISTRY }}/bootc-sway:${{ github.sha }} .
       - name: Push Image
-        run: podman push ${{ env.IMAGE_REGISTRY }}/bootc-sway:$(echo ${GITHUB_REF} | tr '/' '_')
+        run: podman push ${{ env.IMAGE_REGISTRY }}/bootc-sway:${{ github.sha }}
