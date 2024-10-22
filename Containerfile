@@ -1,4 +1,5 @@
 FROM quay.io/fedora/fedora-bootc:40
+LABEL org.opencontainers.image.source="https://github.com/Odilhao/bootc-sway"
 
 RUN mkdir -p /var/roothome /data /var/home
 

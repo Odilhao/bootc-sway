@@ -1,0 +1,18 @@
+name: CI
+
+permissions:
+  actions: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-swaywm:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build container
+        run: sudo podman build   -t ghcr.io/odilhao/bootc-sway:$(echo ${GITHUB_REF} | tr '/' '_') .
