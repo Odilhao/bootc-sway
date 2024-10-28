@@ -10,6 +10,8 @@ It's possible to use the file `config.toml` to set the user/password and the ssh
 
 To generate the inital ISO the following command can be used:
 
+Build in qcow format:
+
 
 ```bash
 sudo podman run \
@@ -19,12 +21,30 @@ sudo podman run \
     --pull=newer \
     --security-opt label=type:unconfined_t \
     -v $(pwd)/output:/output \
+    -v $(pwd)/config.toml:/config.toml:ro 
     -v /var/lib/containers/storage:/var/lib/containers/storage \
     quay.io/centos-bootc/bootc-image-builder:latest \
-    --local \
     --type qcow2 \
     --rootfs btrfs \
-    sway-bootc:latest
+     ghcr.io/odilhao/bootc-sway:latest
+```
+
+Building in anaconta-iso
+
+```bash
+sudo podman run \
+    --rm \
+    -it \
+    --privileged \
+    --pull=newer \
+    --security-opt label=type:unconfined_t \
+    -v $(pwd)/output:/output \
+    -v $(pwd)/config.toml:/config.toml:ro 
+    -v /var/lib/containers/storage:/var/lib/containers/storage \
+    quay.io/centos-bootc/bootc-image-builder:latest \
+    --type anaconda-iso \
+    --rootfs btrfs \
+     ghcr.io/odilhao/bootc-sway:latest
 ```
 
 Here I'm using `btrfs` as filesystem, you can switch to `xfs` if necessary,

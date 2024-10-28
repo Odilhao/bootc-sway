@@ -26,5 +26,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build container
         run: podman build -t ${{ env.IMAGE_REGISTRY }}/bootc-sway:${{ github.sha }} .
-      - name: Push Image
+      - name: Push Image Github SHA
         run: podman push ${{ env.IMAGE_REGISTRY }}/bootc-sway:${{ github.sha }}
+      - name: Tag Image as Latest
+        run: podman tag ${{ env.IMAGE_REGISTRY }}/bootc-sway:${{ github.sha }} ${{ env.IMAGE_REGISTRY }}/bootc-sway:latest
+      - name: Push Latest Image
+        run: podman push ${{ env.IMAGE_REGISTRY }}/bootc-sway:latest

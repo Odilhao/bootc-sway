@@ -3,3 +3,22 @@ name = "user"
 password = "password"
 key = ""
 groups = ["wheel"]
+
+
+[customizations.installer.kickstart]
+contents = """
+text --non-interactive
+zerombr
+network --bootproto=dhcp --device=link --activate --onboot=on
+
+clearpart --all --initlabel
+part btrfs.boot --fstype=btrfs --size=1024
+part btrfs.main --fstype=btrfs --encrypted --grow --fsoptions="compress=zstd:1,space_cache=v2"
+
+btrfs /boot --label=fedora-boot btrfs.boot
+btrfs none --label=fedora-btrfs btrfs.main
+btrfs / --subvol --name=root fedora-btrfs
+btrfs /var/home --subvol --name=home fedora-btrfs
+ostreecontainer --url docker pull ghcr.io/odilhao/bootc-sway:latest
+
+"""
