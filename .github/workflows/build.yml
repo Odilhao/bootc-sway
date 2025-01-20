@@ -3,7 +3,9 @@ name: CI
 on:
   push:
     branches: [main]
-
+  workflow_dispatch:
+  schedule:
+    - cron: '4 4 * * 0,3'
 
 
 env:
